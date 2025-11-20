@@ -1,0 +1,90 @@
+[2025-10-31 11:45:36] Program started.
+[2025-10-31 11:56:00] Program started.
+[2025-10-31 12:00:08] Program started.
+[2025-10-31 14:19:34] Program started.
+[2025-10-31 14:20:12] Added pipe ID=1 name="tr1"
+[2025-10-31 14:20:37] Added CS ID=1 name="kc1"
+[2025-10-31 14:21:23] Listed all objects.
+[2025-10-31 14:22:14] Added pipe ID=2 name="tr2"
+[2025-10-31 14:22:24] Listed all objects.
+[2025-10-31 14:22:33] Listed all objects.
+[2025-10-31 14:23:51] Listed all objects.
+[2025-10-31 14:24:27] Added CS ID=2 name="kc2"
+[2025-10-31 14:24:39] Listed all objects.
+[2025-10-31 14:24:52] Viewed pipe ID=2
+[2025-10-31 14:25:22] View object: ID not found: 3
+[2025-10-31 14:25:31] Viewed pipe ID=1
+[2025-10-31 14:51:05] Program started.
+[2025-10-31 14:53:30] Remove pipe failed - not found ID=1
+[2025-10-31 14:53:31] Listed all objects.
+[2025-10-31 14:53:56] Added pipe ID=1 name="кс1"
+[2025-10-31 14:54:19] Added pipe ID=2 name="кс6"
+[2025-10-31 14:55:00] Edited pipe ID=1
+[2025-10-31 14:55:32] Program started.
+[2025-10-31 14:55:47] Added pipe ID=1 name="tr1"
+[2025-10-31 14:56:21] Added pipe ID=2 name="kc2"
+[2025-10-31 14:56:24] Listed all objects.
+[2025-10-31 14:56:52] Added CS ID=1 name="kc35"
+[2025-10-31 14:56:54] Listed all objects.
+[2025-10-31 14:58:19] Edited pipe ID=2
+[2025-10-31 14:58:23] Listed all objects.
+[2025-10-31 14:58:37] Removed pipe ID=1
+[2025-10-31 14:59:22] Listed all objects.
+[2025-10-31 15:02:18] Added pipe ID=3 name="tr1"
+[2025-10-31 15:05:57] Added pipe ID=4 name="tr3"
+[2025-11-13 09:02:22] Program started.
+[2025-11-13 10:33:15] Program started.
+[2025-11-13 10:35:21] Added pipe ID=1 name="tr1"
+[2025-11-13 10:36:08] Added CS ID=1 name="ks1"
+[2025-11-13 10:36:17] Viewed pipe ID=1
+[2025-11-13 10:36:56] Searched pipes: found 1
+[2025-11-13 10:37:57] Searched CS: found 1
+[2025-11-13 12:39:25] Program started.
+[2025-11-14 12:40:42] Program started.
+[2025-11-14 12:44:27] Program started.
+[2025-11-14 12:46:26] Failed to load data from file "0"
+[2025-11-14 12:50:48] Program started.
+[2025-11-14 12:51:21] Program started.
+[2025-11-14 12:51:41] Added pipe ID=1 name="tr1"
+[2025-11-14 12:52:13] Added CS ID=1 name="0"
+[2025-11-14 12:52:15] Program exited by user.
+[2025-11-14 12:52:43] Program started.
+[2025-11-14 12:53:00] Log file changed to log.txt
+[2025-11-14 14:41:02] Program started.
+[2025-11-14 14:54:02] Program started.
+[2025-11-14 14:54:10] Added pipe ID=1 name="1"
+[2025-11-14 14:54:14] Added CS ID=1 name="1"
+[2025-11-14 14:54:18] Added pipe ID=2 name="2"
+[2025-11-14 14:54:20] Listed all objects.
+[2025-11-14 14:54:41] Saved data to file "1"
+[2025-11-14 14:54:42] Program exited by user.
+[2025-11-14 14:54:52] Program started.
+[2025-11-14 14:54:55] Listed all objects.
+[2025-11-14 14:55:02] Added pipe ID=1 name="1"
+[2025-11-14 14:55:09] Loaded data from file "1"
+[2025-11-14 14:55:11] Listed all objects.
+[2025-11-14 14:55:26] Added pipe ID=3 name="1"
+[2025-11-14 14:55:28] Listed all objects.
+[2025-11-14 14:56:21] Batch edit pipes: user cancelled selection.
+[2025-11-14 14:57:37] Batch edited pipe ID=1
+[2025-11-14 14:57:44] Batch edited pipe ID=3
+[2025-11-14 14:57:44] Batch edit pipes: completed edits for 2 items.
+[2025-11-14 14:57:51] Added CS ID=1 name="1"
+[2025-11-14 14:57:53] Listed all objects.
+[2025-11-14 14:58:00] Saved data to file "2"
+[2025-11-14 14:58:06] Listed all objects.
+[2025-11-14 14:58:10] Added pipe ID=4 name="1"
+[2025-11-14 14:58:13] Listed all objects.
+[2025-11-14 14:58:28] Loaded data from file "2"
+[2025-11-14 14:58:30] Listed all objects.
+[2025-11-14 14:58:34] Program exited by user.
+[2025-11-14 14:59:03] Program started.
+[2025-11-14 14:59:06] Added pipe ID=1 name="1"
+[2025-11-14 15:00:14] Program started.
+[2025-11-14 15:00:18] Added CS ID=1 name="1"
+[2025-11-14 15:00:20] Program exited by user.
+[2025-11-14 15:00:42] Program started.
+[2025-11-14 15:00:46] Added pipe ID=1 name="1"
+[2025-11-19 14:18:18] Program started.
+[2025-11-19 14:58:22] Program started.
+[2025-11-19 15:32:24] Program started.
