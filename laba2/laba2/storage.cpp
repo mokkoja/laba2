@@ -1,16 +1,16 @@
-#include "storage.h"
+﻿#include "storage.h"
 #include "utils.h"
 #include <algorithm>
 #include <fstream>
 
 using namespace std;
 
-// IdGenerator �������� ��� ���������
+// IdGenerator остается без изменений
 IdGenerator::IdGenerator() : nextId(1) {}
 int IdGenerator::next() { return nextId++; }
 void IdGenerator::setNext(int v) { if (v > nextId) nextId = v; }
 
-// EntityManager � map
+// EntityManager с map
 template<typename T>
 int EntityManager<T>::add(const T& entity) {
     entities[entity.getId()] = entity;
@@ -112,7 +112,7 @@ bool EntityManager<T>::loadFromStream(istream& is, const string& header) {
     return false;
 }
 
-// Storage ������
+// Storage методы
 int Storage::addPipe(const Pipe& p) { return pipeManager.add(p); }
 Pipe* Storage::findPipeById(int id) { return pipeManager.findById(id); }
 bool Storage::removePipeById(int id) { return pipeManager.removeById(id); }
@@ -127,7 +127,7 @@ map<int, CS> Storage::getAllCS() const { return csManager.getAll(); }
 map<int, CS*> Storage::findCSByName(const string& name) { return csManager.findByName(name); }
 int Storage::getNextCSId() { return csManager.getNextId(); }
 
-// ��������� ����������� ������
+// Добавляем недостающие методы
 map<int, Pipe> Storage::getAllPipe3() {
     return pipeManager.getAll();
 }
@@ -144,7 +144,7 @@ map<int, CS*> Storage::searchC5(const string& nameSubstr, double minPercentIdle)
     return searchCS(nameSubstr, minPercentIdle);
 }
 
-// ��������� ������ � map
+// Остальные методы с map
 map<int, Pipe*> Storage::searchPipes(const string& nameSubstr, int inRepairFlag) {
     map<int, Pipe*> result;
     map<int, Pipe*> byName;
@@ -213,32 +213,126 @@ bool Storage::loadFromFile(const string& filename) {
 Pipe Storage::createPipeInteractive(int id) {
     Pipe p;
     p.setId(id);
-    p.setName(InputHelper::inputLineNonEmpty("������� �������� �����: "));
-    p.setLength(InputHelper::inputDoublePositive("������� ����� (� ��): "));
-    p.setDiameter(InputHelper::inputIntegerPositive("������� ������� (� ��): "));
-    p.setInRepair(InputHelper::inputZeroOne("����� � �������? (1 - ��, 0 - ���): ") == 1);
+    p.setName(InputHelper::inputLineNonEmpty("Введите название трубы: "));
+    p.setLength(InputHelper::inputDoublePositive("Введите длину (в км): "));
+    p.setDiameter(InputHelper::inputIntegerPositive("Введите диаметр (в мм): "));
+    p.setInRepair(InputHelper::inputZeroOne("Труба в ремонте? (1 - да, 0 - нет): ") == 1);
     return p;
 }
 
 CS Storage::createCSInteractive(int id) {
     CS s;
     s.setId(id);
-    s.setName(InputHelper::inputLineNonEmpty("������� �������� ��: "));
-    s.setWorkshopsTotal(InputHelper::inputIntegerPositive("������� ����� ���������� �����: "));
+    s.setName(InputHelper::inputLineNonEmpty("Введите название КС: "));
+    s.setWorkshopsTotal(InputHelper::inputIntegerPositive("Введите общее количество цехов: "));
 
     while (true) {
-        int working = InputHelper::inputIntegerPositive("������� ���������� ���������� �����: ");
+        int working = InputHelper::inputIntegerPositive("Введите количество работающих цехов: ");
         if (working <= s.getWorkshopsTotal()) {
             s.setWorkshopsWorking(working);
             break;
         }
-        cout << "������! ���������� ���������� �� ����� ��������� ����� (" << s.getWorkshopsTotal() << ").\n";
+        cout << "Ошибка! Количество работающих не может превышать общее (" << s.getWorkshopsTotal() << ").\n";
     }
 
-    s.setStationClass(InputHelper::inputLineNonEmpty("������� ����� �������: "));
+    s.setStationClass(InputHelper::inputLineNonEmpty("Введите класс станции: "));
     return s;
 }
 
-// ����� ������������ ��������
+// Явная инстанциация шаблонов
 template class EntityManager<Pipe>;
 template class EntityManager<CS>;
+
+// В конец storage.cpp добавить:
+
+// Вспомогательный метод для GasNetwork
+map<int, Pipe*> Storage::getAllPipesMap() {
+    map<int, Pipe*> result;
+    auto allPipes = pipeManager.getAll();
+    for (auto& pair : allPipes) {
+        result[pair.first] = const_cast<Pipe*>(&pair.second);
+    }
+    return result;
+}
+
+// Методы для работы с сетью
+bool Storage::createConnection() {
+    return network.createConnectionInteractive(*this);
+}
+
+void Storage::listAllConnections() {
+    map<int, Connection> connections = network.getAllConnections();
+    if (connections.empty()) {
+        cout << "Нет соединений в сети.\n";
+        return;
+    }
+
+    cout << "\n=== ВСЕ СОЕДИНЕНИЯ (" << connections.size() << ") ===\n";
+    for (const auto& pair : connections) {
+        pair.second.printDetails();
+    }
+}
+
+bool Storage::removeConnection(int id) {
+    if (network.removeConnection(id)) {
+        cout << "Соединение ID=" << id << " удалено.\n";
+        LOG.log("Removed connection ID=" + to_string(id));
+        return true;
+    }
+    else {
+        cout << "Соединение с ID=" << id << " не найдено.\n";
+        return false;
+    }
+}
+
+void Storage::performTopologicalSort() {
+    vector<int> sorted = network.topologicalSort(*this);
+
+    if (sorted.empty()) {
+        cout << "Нет соединений для сортировки.\n";
+        return;
+    }
+
+    cout << "\n=== ТОПОЛОГИЧЕСКАЯ СОРТИРОВКА ===\n";
+    cout << "Порядок обработки КС:\n";
+
+    for (size_t i = 0; i < sorted.size(); ++i) {
+        CS* cs = findCSById(sorted[i]);
+        if (cs) {
+            cout << i + 1 << ". КС ID=" << sorted[i]
+                << " \"" << cs->getName() << "\"\n";
+        }
+    }
+
+    if (network.hasCycles(*this)) {
+        cout << "\n⚠️  Предупреждение: В сети обнаружены циклы!\n";
+        cout << "   Не все КС могут быть обработаны в линейном порядке.\n";
+    }
+}
+
+void Storage::printNetwork() {
+    network.printNetworkGraph(*this);
+}
+
+// В метод saveToFile добавить сохранение сети:
+bool Storage::saveToFile(const string& filename) {
+    ofstream f(filename);
+    if (!f) return false;
+
+    pipeManager.saveToStream(f, "PIPES");
+    csManager.saveToStream(f, "CS");
+    network.saveToStream(f);  // ← ДОБАВИТЬ ЭТУ СТРОЧКУ
+    return true;
+}
+
+// В метод loadFromFile добавить загрузку сети:
+bool Storage::loadFromFile(const string& filename) {
+    ifstream f(filename);
+    if (!f) return false;
+
+    bool pipesLoaded = pipeManager.loadFromStream(f, "PIPES");
+    bool csLoaded = csManager.loadFromStream(f, "CS");
+    bool networkLoaded = network.loadFromStream(f);  // ← ДОБАВИТЬ ЭТУ СТРОЧКУ
+
+    return pipesLoaded || csLoaded || networkLoaded;
+}

@@ -71,6 +71,24 @@ public:
     // Создание объектов через интерактивный ввод
     Pipe createPipeInteractive(int id);
     CS createCSInteractive(int id);
+
+    // В класс Storage добавить:
+
+
+private:
+    GasNetwork network;
+
+public:
+    // Методы для работы с сетью
+    bool createConnection();
+    void listAllConnections();
+    bool removeConnection(int id);
+    void performTopologicalSort();
+    void printNetwork();
+    GasNetwork& getNetwork() { return network; }
+
+    // Вспомогательный метод для network.cpp
+    std::map<int, Pipe*> getAllPipesMap();
 };
 
 #endif
