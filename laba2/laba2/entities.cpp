@@ -2,26 +2,26 @@
 #include "utils.h"
 #include <algorithm>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 
-// BaseEntity implementation
-BaseEntity::BaseEntity() : id(0), name("") {}
-
-int BaseEntity::getId() const { return id; }
-void BaseEntity::setId(int newId) { id = newId; }
-string BaseEntity::getName() const { return name; }
-void BaseEntity::setName(const string& newName) { name = newName; }
-
 // Pipe implementation
-Pipe::Pipe() : length(0.0), diameter(0), inRepair(false) {}
+Pipe::Pipe() : id(0), name(""), length(0.0), diameter(0), inRepair(false) {}
 
+Pipe::Pipe(int id, string name, double length, int diameter, bool inRepair)
+    : id(id), name(name), length(length), diameter(diameter), inRepair(inRepair) {
+}
+
+int Pipe::getId() const { return id; }
+void Pipe::setId(int newId) { id = newId; }
+string Pipe::getName() const { return name; }
+void Pipe::setName(const string& newName) { name = newName; }
 double Pipe::getLength() const { return length; }
+void Pipe::setLength(double newLength) { length = newLength; }
 int Pipe::getDiameter() const { return diameter; }
+void Pipe::setDiameter(int newDiameter) { diameter = newDiameter; }
 bool Pipe::isInRepair() const { return inRepair; }
-
-void Pipe::setLength(double l) { length = l; }
-void Pipe::setDiameter(int d) { diameter = d; }
 void Pipe::setInRepair(bool repair) { inRepair = repair; }
 
 string Pipe::toSingleLine() const {
@@ -91,30 +91,39 @@ void Pipe::editInteractive() {
 }
 
 // CS implementation
-CS::CS() : workshopsTotal(0), workshopsWorking(0), stationClass(""), efficiency(0.0) {}
+CS::CS() : id(0), name(""), workshopsTotal(0), workshopsWorking(0), stationClass(""), efficiency(0.0) {}
 
-int CS::getWorkshopsTotal() const { return workshopsTotal; }
-int CS::getWorkshopsWorking() const { return workshopsWorking; }
-string CS::getStationClass() const { return stationClass; }
-double CS::getEfficiency() const { return efficiency; }
-double CS::getIdlePercent() const {
-    return workshopsTotal > 0 ? 100.0 * (workshopsTotal - workshopsWorking) / workshopsTotal : 0.0;
+CS::CS(int id, string name, int workshopsTotal, int workshopsWorking, string stationClass)
+    : id(id), name(name), workshopsTotal(workshopsTotal), workshopsWorking(workshopsWorking), stationClass(stationClass)
+{
+    updateEfficiency();
 }
 
+int CS::getId() const { return id; }
+void CS::setId(int newId) { id = newId; }
+string CS::getName() const { return name; }
+void CS::setName(const string& newName) { name = newName; }
+int CS::getWorkshopsTotal() const { return workshopsTotal; }
 void CS::setWorkshopsTotal(int total) {
     workshopsTotal = total;
     updateEfficiency();
 }
-
+int CS::getWorkshopsWorking() const { return workshopsWorking; }
 void CS::setWorkshopsWorking(int working) {
     workshopsWorking = working;
     updateEfficiency();
 }
-
+double CS::getIdlePercent() const {
+    if (workshopsTotal == 0) return 0.0;
+    return 100.0 * (workshopsTotal - workshopsWorking) / workshopsTotal;
+}
+string CS::getStationClass() const { return stationClass; }
 void CS::setStationClass(const string& cls) { stationClass = cls; }
 
+double CS::getEfficiency() const { return efficiency; }
+void CS::setEfficiency(double eff) { efficiency = eff; }
 void CS::updateEfficiency() {
-    efficiency = workshopsTotal > 0 ? 100.0 * workshopsWorking / workshopsTotal : 0.0;
+    efficiency = (workshopsTotal > 0) ? (100.0 * workshopsWorking / workshopsTotal) : 0.0;
 }
 
 string CS::toSingleLine() const {

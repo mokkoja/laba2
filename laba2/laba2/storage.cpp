@@ -5,7 +5,6 @@
 
 using namespace std;
 
-// IdGenerator остается без изменений
 IdGenerator::IdGenerator() : nextId(1) {}
 int IdGenerator::next() { return nextId++; }
 void IdGenerator::setNext(int v) { if (v > nextId) nextId = v; }
@@ -197,6 +196,7 @@ bool Storage::saveToFile(const string& filename) {
 
     pipeManager.saveToStream(f, "PIPES");
     csManager.saveToStream(f, "CS");
+    network.saveToStream(f);  // ← ДОБАВЛЕНА СЕТЬ
     return true;
 }
 
@@ -206,8 +206,9 @@ bool Storage::loadFromFile(const string& filename) {
 
     bool pipesLoaded = pipeManager.loadFromStream(f, "PIPES");
     bool csLoaded = csManager.loadFromStream(f, "CS");
+    bool networkLoaded = network.loadFromStream(f);  // ← ДОБАВЛЕНА СЕТЬ
 
-    return pipesLoaded || csLoaded;
+    return pipesLoaded || csLoaded || networkLoaded;
 }
 
 Pipe Storage::createPipeInteractive(int id) {
@@ -238,12 +239,6 @@ CS Storage::createCSInteractive(int id) {
     s.setStationClass(InputHelper::inputLineNonEmpty("Введите класс станции: "));
     return s;
 }
-
-// Явная инстанциация шаблонов
-template class EntityManager<Pipe>;
-template class EntityManager<CS>;
-
-// В конец storage.cpp добавить:
 
 // Вспомогательный метод для GasNetwork
 map<int, Pipe*> Storage::getAllPipesMap() {
@@ -305,7 +300,7 @@ void Storage::performTopologicalSort() {
     }
 
     if (network.hasCycles(*this)) {
-        cout << "\n⚠️  Предупреждение: В сети обнаружены циклы!\n";
+        cout << "\n Предупреждение: В сети обнаружены циклы!\n";
         cout << "   Не все КС могут быть обработаны в линейном порядке.\n";
     }
 }
@@ -314,25 +309,6 @@ void Storage::printNetwork() {
     network.printNetworkGraph(*this);
 }
 
-// В метод saveToFile добавить сохранение сети:
-bool Storage::saveToFile(const string& filename) {
-    ofstream f(filename);
-    if (!f) return false;
-
-    pipeManager.saveToStream(f, "PIPES");
-    csManager.saveToStream(f, "CS");
-    network.saveToStream(f);  // ← ДОБАВИТЬ ЭТУ СТРОЧКУ
-    return true;
-}
-
-// В метод loadFromFile добавить загрузку сети:
-bool Storage::loadFromFile(const string& filename) {
-    ifstream f(filename);
-    if (!f) return false;
-
-    bool pipesLoaded = pipeManager.loadFromStream(f, "PIPES");
-    bool csLoaded = csManager.loadFromStream(f, "CS");
-    bool networkLoaded = network.loadFromStream(f);  // ← ДОБАВИТЬ ЭТУ СТРОЧКУ
-
-    return pipesLoaded || csLoaded || networkLoaded;
-}
+// Явная инстанциация шаблонов
+template class EntityManager<Pipe>;
+template class EntityManager<CS>;

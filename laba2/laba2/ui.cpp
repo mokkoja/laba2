@@ -1,53 +1,60 @@
-#include "ui.h"
+п»ї#include "ui.h"
 #include <iostream>
 #include <exception>
 #include <iomanip>
+#include "network.h"
 
 using namespace std;
 
 UserInterface::UserInterface(Storage& st) : storage(st) {}
 
 void UserInterface::printMenu() {
-    cout << "\n=== МЕНЮ ===\n"
-        << "1. Добавить трубу\n"
-        << "2. Добавить КС\n"
-        << "3. Просмотреть все объекты\n"
-        << "4. Просмотреть трубу по ID\n"
-        << "5. Просмотреть КС по ID\n"
-        << "6. Редактировать трубу по ID\n"
-        << "7. Редактировать КС по ID\n"
-        << "8. Удалить трубу по ID\n"
-        << "9. Удалить КС по ID\n"
-        << "10. Поиск труб (фильтр)\n"
-        << "11. Поиск КС (фильтр)\n"
-        << "12. Пакетное редактирование труб (по результатам поиска)\n"
-        << "13. Сохранить данные в файл (указать имя)\n"
-        << "14. Загрузить данные из файла (указать имя)\n"
-        << "15. Задать файл логов (по умолчанию log.txt)\n"
-        << "0. Выход\n"
-        << "Ваш выбор: ";
+    cout << "\n=== РњР•РќР® РЈРџР РђР’Р›Р•РќРРЇ ===\n"
+        << "1. Р”РѕР±Р°РІРёС‚СЊ С‚СЂСѓР±Сѓ\n"
+        << "2. Р”РѕР±Р°РІРёС‚СЊ РљРЎ\n"
+        << "3. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РІСЃРµ РѕР±СЉРµРєС‚С‹\n"
+        << "4. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ С‚СЂСѓР±Сѓ РїРѕ ID\n"
+        << "5. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РљРЎ РїРѕ ID\n"
+        << "6. Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ С‚СЂСѓР±Сѓ РїРѕ ID\n"
+        << "7. Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ РљРЎ РїРѕ ID\n"
+        << "8. РЈРґР°Р»РёС‚СЊ С‚СЂСѓР±Сѓ РїРѕ ID\n"
+        << "9. РЈРґР°Р»РёС‚СЊ РљРЎ РїРѕ ID\n"
+        << "10. РџРѕРёСЃРє С‚СЂСѓР± (С„РёР»СЊС‚СЂ)\n"
+        << "11. РџРѕРёСЃРє РљРЎ (С„РёР»СЊС‚СЂ)\n"
+        << "12. РџР°РєРµС‚РЅРѕРµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚СЂСѓР±\n"
+        << "13. РЎРѕС…СЂР°РЅРёС‚СЊ РґР°РЅРЅС‹Рµ РІ С„Р°Р№Р»\n"
+        << "14. Р—Р°РіСЂСѓР·РёС‚СЊ РґР°РЅРЅС‹Рµ РёР· С„Р°Р№Р»Р°\n"
+        << "15. Р—Р°РґР°С‚СЊ С„Р°Р№Р» Р»РѕРіРѕРІ\n"
+        << "\n--- Р“РђР—РћРўР РђРќРЎРџРћР РўРќРђРЇ РЎР•РўР¬ ---\n"
+        << "16. РЎРѕР·РґР°С‚СЊ СЃРѕРµРґРёРЅРµРЅРёРµ\n"
+        << "17. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РІСЃРµ СЃРѕРµРґРёРЅРµРЅРёСЏ\n"
+        << "18. РЈРґР°Р»РёС‚СЊ СЃРѕРµРґРёРЅРµРЅРёРµ\n"
+        << "19. РўРѕРїРѕР»РѕРіРёС‡РµСЃРєР°СЏ СЃРѕСЂС‚РёСЂРѕРІРєР°\n"
+        << "20. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РіСЂР°С„ СЃРµС‚Рё\n"
+        << "0. Р’С‹С…РѕРґ\n"
+        << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
 }
 
 void UserInterface::listAllObjects() {
-    cout << "\n-- Трубы: --\n";
+    cout << "\n-- РўСЂСѓР±С‹: --\n";
     map<int, Pipe> pipes = storage.getAllPipes();
-    if (pipes.empty()) cout << "<нет труб>\n";
+    if (pipes.empty()) cout << "<РЅРµС‚ С‚СЂСѓР±>\n";
     for (const auto& pair : pipes) {
         const Pipe& pipe = pair.second;
         cout << "ID=" << pipe.getId() << " | " << pipe.getName() << " | "
-            << pipe.getLength() << " км | " << pipe.getDiameter() << " мм | "
-            << (pipe.isInRepair() ? "В ремонте" : "Работает") << "\n";
+            << pipe.getLength() << " РєРј | " << pipe.getDiameter() << " РјРј | "
+            << (pipe.isInRepair() ? "Р’ СЂРµРјРѕРЅС‚Рµ" : "Р Р°Р±РѕС‚Р°РµС‚") << "\n";
     }
 
-    cout << "\n-- КС: --\n";
+    cout << "\n-- РљРЎ: --\n";
     map<int, CS> css = storage.getAllCS();
-    if (css.empty()) cout << "<нет КС>\n";
+    if (css.empty()) cout << "<РЅРµС‚ РљРЎ>\n";
     for (const auto& pair : css) {
         const CS& cs = pair.second;
-        cout << "ID=" << cs.getId() << " | " << cs.getName() << " | класс "
+        cout << "ID=" << cs.getId() << " | " << cs.getName() << " | РєР»Р°СЃСЃ "
             << cs.getStationClass() << " | " << cs.getWorkshopsWorking() << "/"
-            << cs.getWorkshopsTotal() << " | эффективность " << fixed << setprecision(2)
-            << cs.getEfficiency() << "% | незадействовано " << fixed << setprecision(2)
+            << cs.getWorkshopsTotal() << " | СЌС„С„РµРєС‚РёРІРЅРѕСЃС‚СЊ " << fixed << setprecision(2)
+            << cs.getEfficiency() << "% | РЅРµР·Р°РґРµР№СЃС‚РІРѕРІР°РЅРѕ " << fixed << setprecision(2)
             << cs.getIdlePercent() << "%\n";
     }
 }
@@ -75,92 +82,51 @@ void UserInterface::run() {
             else if (choice == "13") saveData(storage);
             else if (choice == "14") loadData(storage);
             else if (choice == "15") setLogFile();
+            else if (choice == "16") createConnection(storage);
+            else if (choice == "17") listConnections(storage);
+            else if (choice == "18") removeConnection(storage);
+            else if (choice == "19") topologicalSort(storage);
+            else if (choice == "20") printNetwork(storage);
             else if (choice == "0") break;
-            else cout << "Неверный выбор.\n";
+            else cout << "РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ.\n";
         }
         catch (const exception& e) {
-            cout << "Ошибка: " << e.what() << "\n";
+            cout << "РћС€РёР±РєР°: " << e.what() << "\n";
             LOG.log(string("Exception: ") + e.what());
         }
     }
 }
 
-void viewPipeById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID трубы: ");
-    Pipe* pipe = storage.findPipeById(id);
-    if (pipe) {
-        pipe->printDetails();
-        LOG.log(string("Viewed pipe ID=") + to_string(id));
-    }
-    else {
-        cout << "Труба с ID=" << id << " не найдена.\n";
-        LOG.log(string("View pipe: ID not found: ") + to_string(id));
-    }
-}
-
-void viewCSById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID КС: ");
-    CS* cs = storage.findCSById(id);
-    if (cs) {
-        cs->printDetails();
-        LOG.log(string("Viewed CS ID=") + to_string(id));
-    }
-    else {
-        cout << "КС с ID=" << id << " не найдена.\n";
-        LOG.log(string("View CS: ID not found: ") + to_string(id));
-    }
-}
-
-void viewObjectById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID объекта: ");
-    Pipe* pipe = storage.findPipeById(id);
-    if (pipe) {
-        pipe->printDetails();
-        LOG.log(string("Viewed pipe ID=") + to_string(id));
-        return;
-    }
-
-    CS* cs = storage.findCSById(id);
-    if (cs) {
-        cs->printDetails();
-        LOG.log(string("Viewed CS ID=") + to_string(id));
-        return;
-    }
-
-    cout << "Объект с таким ID не найден.\n";
-    LOG.log(string("View object: ID not found: ") + to_string(id));
-}
-
 void UserInterface::searchAndBatchEditPipes() {
-    cout << "Пакетное редактирование труб: сначала зададим фильтр.\n";
+    cout << "РџР°РєРµС‚РЅРѕРµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚СЂСѓР±: СЃРЅР°С‡Р°Р»Р° Р·Р°РґР°РґРёРј С„РёР»СЊС‚СЂ.\n";
 
-    cout << "Фильтр по имени (подстрока, пустая строка - нет фильтра): ";
+    cout << "Р¤РёР»СЊС‚СЂ РїРѕ РёРјРµРЅРё (РїРѕРґСЃС‚СЂРѕРєР°, РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° - РЅРµС‚ С„РёР»СЊС‚СЂР°): ";
     string name;
     getline(cin, name);
     name = trim(name);
 
     int repairFilter = -1;
     string repairInput = InputHelper::inputLineNonEmpty(
-        "Фильтр по состоянию ремонта? (1 - только в ремонте, 0 - только не в ремонте, пустая строка - нет фильтра): ");
+        "Р¤РёР»СЊС‚СЂ РїРѕ СЃРѕСЃС‚РѕСЏРЅРёСЋ СЂРµРјРѕРЅС‚Р°? (1 - С‚РѕР»СЊРєРѕ РІ СЂРµРјРѕРЅС‚Рµ, 0 - С‚РѕР»СЊРєРѕ РЅРµ РІ СЂРµРјРѕРЅС‚Рµ, РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° - РЅРµС‚ С„РёР»СЊС‚СЂР°): ");
     if (!repairInput.empty()) {
         if (parseInt(repairInput, repairFilter) && (repairFilter == 0 || repairFilter == 1)) {
             // OK
         }
         else {
-            cout << "Игнорирую фильтр 'в ремонте'.\n";
+            cout << "РРіРЅРѕСЂРёСЂСѓСЋ С„РёР»СЊС‚СЂ 'РІ СЂРµРјРѕРЅС‚Рµ'.\n";
             repairFilter = -1;
         }
     }
 
     map<int, Pipe*> found = storage.searchPipes(name, repairFilter);
     if (found.empty()) {
-        cout << "Ничего не найдено по заданным фильтрам.\n";
+        cout << "РќРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ РїРѕ Р·Р°РґР°РЅРЅС‹Рј С„РёР»СЊС‚СЂР°Рј.\n";
         LOG.log("Batch edit pipes: search returned 0 results.");
         return;
     }
 
     map<int, int> foundIds;
-    cout << "Найденные трубы:\n";
+    cout << "РќР°Р№РґРµРЅРЅС‹Рµ С‚СЂСѓР±С‹:\n";
     for (const auto& pair : found) {
         Pipe* pipe = pair.second;
         pipe->printDetails();
@@ -170,7 +136,7 @@ void UserInterface::searchAndBatchEditPipes() {
     map<int, int> chosenIds = BatchProcessor::askIdsFromUserSelection(foundIds);
 
     if (chosenIds.empty()) {
-        cout << "Отмена пакетного редактирования.\n";
+        cout << "РћС‚РјРµРЅР° РїР°РєРµС‚РЅРѕРіРѕ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ.\n";
         LOG.log("Batch edit pipes: user cancelled selection.");
         return;
     }
@@ -179,7 +145,7 @@ void UserInterface::searchAndBatchEditPipes() {
 }
 
 void UserInterface::processBatchOperation(const map<int, int>& chosenIds) {
-    cout << "Доступные операции:\n1) Редактировать выбранные\n2) Удалить выбранные\n0) Отмена\nВаш выбор: ";
+    cout << "Р”РѕСЃС‚СѓРїРЅС‹Рµ РѕРїРµСЂР°С†РёРё:\n1) Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ РІС‹Р±СЂР°РЅРЅС‹Рµ\n2) РЈРґР°Р»РёС‚СЊ РІС‹Р±СЂР°РЅРЅС‹Рµ\n0) РћС‚РјРµРЅР°\nР’Р°С€ РІС‹Р±РѕСЂ: ";
     string op;
     getline(cin, op);
     op = trim(op);
@@ -189,12 +155,12 @@ void UserInterface::processBatchOperation(const map<int, int>& chosenIds) {
             int id = pair.first;
             Pipe* pipe = storage.findPipeById(id);
             if (pipe) {
-                cout << "\nРедактирование трубы ID=" << id << ":\n";
+                cout << "\nР РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚СЂСѓР±С‹ ID=" << id << ":\n";
                 pipe->editInteractive();
                 LOG.log(string("Batch edited pipe ID=") + to_string(id));
             }
         }
-        cout << "Пакетное редактирование завершено.\n";
+        cout << "РџР°РєРµС‚РЅРѕРµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ.\n";
         LOG.log(string("Batch edit pipes: completed edits for ") + to_string(chosenIds.size()) + " items.");
     }
     else if (op == "2") {
@@ -204,20 +170,22 @@ void UserInterface::processBatchOperation(const map<int, int>& chosenIds) {
                 LOG.log(string("Batch removed pipe ID=") + to_string(id));
             }
         }
-        cout << "Удаление выбранных труб выполнено.\n";
+        cout << "РЈРґР°Р»РµРЅРёРµ РІС‹Р±СЂР°РЅРЅС‹С… С‚СЂСѓР± РІС‹РїРѕР»РЅРµРЅРѕ.\n";
         LOG.log(string("Batch edit pipes: removed ") + to_string(chosenIds.size()) + " items.");
     }
     else {
-        cout << "Отмена операции.\n";
+        cout << "РћС‚РјРµРЅР° РѕРїРµСЂР°С†РёРё.\n";
         LOG.log("Batch edit pipes: user cancelled operation choice.");
     }
 }
+
+// Р РµР°Р»РёР·Р°С†РёРё СЃРІРѕР±РѕРґРЅС‹С… С„СѓРЅРєС†РёР№
 
 void addPipe(Storage& storage) {
     int id = storage.getNextPipeId();
     Pipe p = storage.createPipeInteractive(id);
     storage.addPipe(p);
-    cout << "Труба добавлена с ID=" << p.getId() << "\n";
+    cout << "РўСЂСѓР±Р° РґРѕР±Р°РІР»РµРЅР° СЃ ID=" << p.getId() << "\n";
     LOG.log(string("Added pipe ID=") + to_string(p.getId()) + " name=\"" + p.getName() + "\"");
 }
 
@@ -225,15 +193,61 @@ void addCS(Storage& storage) {
     int id = storage.getNextCSId();
     CS s = storage.createCSInteractive(id);
     storage.addCS(s);
-    cout << "КС добавлена с ID=" << s.getId() << "\n";
+    cout << "РљРЎ РґРѕР±Р°РІР»РµРЅР° СЃ ID=" << s.getId() << "\n";
     LOG.log(string("Added CS ID=") + to_string(s.getId()) + " name=\"" + s.getName() + "\"");
 }
 
+void viewPipeById(Storage& storage) {
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID С‚СЂСѓР±С‹: ");
+    Pipe* pipe = storage.findPipeById(id);
+    if (pipe) {
+        pipe->printDetails();
+        LOG.log(string("Viewed pipe ID=") + to_string(id));
+    }
+    else {
+        cout << "РўСЂСѓР±Р° СЃ ID=" << id << " РЅРµ РЅР°Р№РґРµРЅР°.\n";
+        LOG.log(string("View pipe: ID not found: ") + to_string(id));
+    }
+}
+
+void viewCSById(Storage& storage) {
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID РљРЎ: ");
+    CS* cs = storage.findCSById(id);
+    if (cs) {
+        cs->printDetails();
+        LOG.log(string("Viewed CS ID=") + to_string(id));
+    }
+    else {
+        cout << "РљРЎ СЃ ID=" << id << " РЅРµ РЅР°Р№РґРµРЅР°.\n";
+        LOG.log(string("View CS: ID not found: ") + to_string(id));
+    }
+}
+
+void viewObjectById(Storage& storage) {
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID РѕР±СЉРµРєС‚Р°: ");
+    Pipe* pipe = storage.findPipeById(id);
+    if (pipe) {
+        pipe->printDetails();
+        LOG.log(string("Viewed pipe ID=") + to_string(id));
+        return;
+    }
+
+    CS* cs = storage.findCSById(id);
+    if (cs) {
+        cs->printDetails();
+        LOG.log(string("Viewed CS ID=") + to_string(id));
+        return;
+    }
+
+    cout << "РћР±СЉРµРєС‚ СЃ С‚Р°РєРёРј ID РЅРµ РЅР°Р№РґРµРЅ.\n";
+    LOG.log(string("View object: ID not found: ") + to_string(id));
+}
+
 void editPipeById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID трубы для редактирования: ");
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID С‚СЂСѓР±С‹ РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ: ");
     Pipe* pipe = storage.findPipeById(id);
     if (!pipe) {
-        cout << "Труба не найдена.\n";
+        cout << "РўСЂСѓР±Р° РЅРµ РЅР°Р№РґРµРЅР°.\n";
         LOG.log(string("Edit pipe failed - not found ID=") + to_string(id));
         return;
     }
@@ -242,10 +256,10 @@ void editPipeById(Storage& storage) {
 }
 
 void editCSById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID КС для редактирования: ");
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID РљРЎ РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ: ");
     CS* cs = storage.findCSById(id);
     if (!cs) {
-        cout << "КС не найдена.\n";
+        cout << "РљРЎ РЅРµ РЅР°Р№РґРµРЅР°.\n";
         LOG.log(string("Edit CS failed - not found ID=") + to_string(id));
         return;
     }
@@ -254,39 +268,39 @@ void editCSById(Storage& storage) {
 }
 
 void removePipeById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID трубы для удаления: ");
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID С‚СЂСѓР±С‹ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ: ");
     if (storage.removePipeById(id)) {
-        cout << "Труба удалена.\n";
+        cout << "РўСЂСѓР±Р° СѓРґР°Р»РµРЅР°.\n";
         LOG.log(string("Removed pipe ID=") + to_string(id));
     }
     else {
-        cout << "Труба с таким ID не найдена.\n";
+        cout << "РўСЂСѓР±Р° СЃ С‚Р°РєРёРј ID РЅРµ РЅР°Р№РґРµРЅР°.\n";
         LOG.log(string("Remove pipe failed - not found ID=") + to_string(id));
     }
 }
 
 void removeCSById(Storage& storage) {
-    int id = InputHelper::inputIntegerPositive("Введите ID КС для удаления: ");
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID РљРЎ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ: ");
     if (storage.removeCSById(id)) {
-        cout << "КС удалена.\n";
+        cout << "РљРЎ СѓРґР°Р»РµРЅР°.\n";
         LOG.log(string("Removed CS ID=") + to_string(id));
     }
     else {
-        cout << "КС с таким ID не найдена.\n";
+        cout << "РљРЎ СЃ С‚Р°РєРёРј ID РЅРµ РЅР°Р№РґРµРЅР°.\n";
         LOG.log(string("Remove CS failed - not found ID=") + to_string(id));
     }
 }
 
 void searchPipes(Storage& storage) {
-    cout << "Поиск труб. Введите фильтры.\n";
-    cout << "По имени (подстрока, пустая строка - нет фильтра): ";
+    cout << "РџРѕРёСЃРє С‚СЂСѓР±. Р’РІРµРґРёС‚Рµ С„РёР»СЊС‚СЂС‹.\n";
+    cout << "РџРѕ РёРјРµРЅРё (РїРѕРґСЃС‚СЂРѕРєР°, РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° - РЅРµС‚ С„РёР»СЊС‚СЂР°): ";
     string name;
     getline(cin, name);
     name = trim(name);
 
     int repairFilter = -1;
     string repairInput = InputHelper::inputLineNonEmpty(
-        "Только в ремонте? (1 - только в ремонте, 0 - только не в ремонте, пустая строка - нет фильтра): ");
+        "РўРѕР»СЊРєРѕ РІ СЂРµРјРѕРЅС‚Рµ? (1 - С‚РѕР»СЊРєРѕ РІ СЂРµРјРѕРЅС‚Рµ, 0 - С‚РѕР»СЊРєРѕ РЅРµ РІ СЂРµРјРѕРЅС‚Рµ, РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° - РЅРµС‚ С„РёР»СЊС‚СЂР°): ");
     if (!repairInput.empty()) {
         if (!parseInt(repairInput, repairFilter) || (repairFilter != 0 && repairFilter != 1)) {
             repairFilter = -1;
@@ -294,7 +308,7 @@ void searchPipes(Storage& storage) {
     }
 
     map<int, Pipe*> result = storage.searchPipes(name, repairFilter);
-    cout << "Найдено труб: " << result.size() << "\n";
+    cout << "РќР°Р№РґРµРЅРѕ С‚СЂСѓР±: " << result.size() << "\n";
     for (const auto& pair : result) {
         Pipe* pipe = pair.second;
         pipe->printDetails();
@@ -303,24 +317,24 @@ void searchPipes(Storage& storage) {
 }
 
 void searchCS(Storage& storage) {
-    cout << "Поиск КС. Введите фильтры.\n";
-    cout << "По имени (подстрока, пустая строка - нет фильтра): ";
+    cout << "РџРѕРёСЃРє РљРЎ. Р’РІРµРґРёС‚Рµ С„РёР»СЊС‚СЂС‹.\n";
+    cout << "РџРѕ РёРјРµРЅРё (РїРѕРґСЃС‚СЂРѕРєР°, РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° - РЅРµС‚ С„РёР»СЊС‚СЂР°): ";
     string name;
     getline(cin, name);
     name = trim(name);
 
     double minIdlePercent = -1.0;
     string percentInput = InputHelper::inputLineNonEmpty(
-        "Минимальный % незадействованных цехов (пустая строка - нет фильтра): ");
+        "РњРёРЅРёРјР°Р»СЊРЅС‹Р№ % РЅРµР·Р°РґРµР№СЃС‚РІРѕРІР°РЅРЅС‹С… С†РµС…РѕРІ (РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР° - РЅРµС‚ С„РёР»СЊС‚СЂР°): ");
     if (!percentInput.empty()) {
         if (!parseDouble(percentInput, minIdlePercent) || minIdlePercent < 0) {
             minIdlePercent = -1.0;
-            cout << "Игнорирую неверный процент.\n";
+            cout << "РРіРЅРѕСЂРёСЂСѓСЋ РЅРµРІРµСЂРЅС‹Р№ РїСЂРѕС†РµРЅС‚.\n";
         }
     }
 
     map<int, CS*> result = storage.searchCS(name, minIdlePercent);
-    cout << "Найдено КС: " << result.size() << "\n";
+    cout << "РќР°Р№РґРµРЅРѕ РљРЎ: " << result.size() << "\n";
     for (const auto& pair : result) {
         CS* cs = pair.second;
         cs->printDetails();
@@ -329,32 +343,59 @@ void searchCS(Storage& storage) {
 }
 
 void saveData(Storage& storage) {
-    string filename = InputHelper::inputLineNonEmpty("Введите имя файла для сохранения (например data.txt): ");
+    string filename = InputHelper::inputLineNonEmpty("Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ (РЅР°РїСЂРёРјРµСЂ data.txt): ");
     if (storage.saveToFile(filename)) {
-        cout << "Сохранено в файл " << filename << "\n";
+        cout << "РЎРѕС…СЂР°РЅРµРЅРѕ РІ С„Р°Р№Р» " << filename << "\n";
         LOG.log(string("Saved data to file \"") + filename + "\"");
     }
     else {
-        cout << "Ошибка записи в файл " << filename << "\n";
+        cout << "РћС€РёР±РєР° Р·Р°РїРёСЃРё РІ С„Р°Р№Р» " << filename << "\n";
         LOG.log(string("Failed to save data to file \"") + filename + "\"");
     }
 }
 
 void loadData(Storage& storage) {
-    string filename = InputHelper::inputLineNonEmpty("Введите имя файла для загрузки (например data.txt): ");
+    string filename = InputHelper::inputLineNonEmpty("Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ Р·Р°РіСЂСѓР·РєРё (РЅР°РїСЂРёРјРµСЂ data.txt): ");
     if (storage.loadFromFile(filename)) {
-        cout << "Данные загружены из " << filename << "\n";
+        cout << "Р”Р°РЅРЅС‹Рµ Р·Р°РіСЂСѓР¶РµРЅС‹ РёР· " << filename << "\n";
         LOG.log(string("Loaded data from file \"") + filename + "\"");
     }
     else {
-        cout << "Ошибка чтения файла " << filename << "\n";
+        cout << "РћС€РёР±РєР° С‡С‚РµРЅРёСЏ С„Р°Р№Р»Р° " << filename << "\n";
         LOG.log(string("Failed to load data from file \"") + filename + "\"");
     }
 }
 
 void setLogFile() {
-    string filename = InputHelper::inputLineNonEmpty("Введите имя файла для логирования (например mylog.txt): ");
+    string filename = InputHelper::inputLineNonEmpty("Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ Р»РѕРіРёСЂРѕРІР°РЅРёСЏ (РЅР°РїСЂРёРјРµСЂ mylog.txt): ");
     LOG.setFile(filename);
     LOG.log(string("Log file changed to ") + filename);
-    cout << "Файл логов изменён на: " << filename << "\n";
+    cout << "Р¤Р°Р№Р» Р»РѕРіРѕРІ РёР·РјРµРЅС‘РЅ РЅР°: " << filename << "\n";
+}
+
+// РЎРµС‚РµРІС‹Рµ С„СѓРЅРєС†РёРё
+void createConnection(Storage& storage) {
+    if (storage.createConnection()) {
+        cout << "РЎРѕРµРґРёРЅРµРЅРёРµ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅРѕ!\n";
+    }
+    else {
+        cout << "РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ СЃРѕРµРґРёРЅРµРЅРёРµ.\n";
+    }
+}
+
+void listConnections(Storage& storage) {
+    storage.listAllConnections();
+}
+
+void removeConnection(Storage& storage) {
+    int id = InputHelper::inputIntegerPositive("Р’РІРµРґРёС‚Рµ ID СЃРѕРµРґРёРЅРµРЅРёСЏ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ: ");
+    storage.removeConnection(id);
+}
+
+void topologicalSort(Storage& storage) {
+    storage.performTopologicalSort();
+}
+
+void printNetwork(Storage& storage) {
+    storage.printNetwork();
 }

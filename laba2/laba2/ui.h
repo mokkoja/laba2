@@ -30,3 +30,9 @@ void searchCS(Storage& storage);
 void saveData(Storage& storage);
 void loadData(Storage& storage);
 void setLogFile();
+
+void createConnection(Storage& storage);
+void listConnections(Storage& storage);
+void removeConnection(Storage& storage);
+void topologicalSort(Storage& storage);
+void printNetwork(Storage& storage);

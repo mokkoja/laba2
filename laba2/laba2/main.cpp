@@ -1,6 +1,7 @@
-#include "ui.h"
+ï»¿#include "ui.h"
 #include <iostream>
 #include <locale.h>
+#include "network.h"
 
 using namespace std;
 
@@ -12,44 +13,10 @@ int main() {
     Storage storage;
     UserInterface ui(storage);
 
-    cout << "Ïðîãðàììà óïðàâëåíèÿ òðóáàìè è ÊÑ \n";
+    cout << "ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ñ‚Ñ€ÑƒÐ±Ð°Ð¼Ð¸ Ð¸ ÐšÐ¡ \n";
     LOG.log("Program started.");
 
-    while (true) {
-        ui.printMenu();
-        int choice = InputHelper::inputMenuChoice();
-
-        if (choice == 0) {
-            LOG.log("Program exited by user.");
-            cout << "Âûõîä.\n";
-            break;
-        }
-
-        try {
-            switch (choice) {
-            case 1: addPipe(storage); break;
-            case 2: addCS(storage); break;
-            case 3: ui.listAllObjects(); LOG.log("Listed all objects."); break;
-            case 4: viewPipeById(storage); break;     
-            case 5: viewCSById(storage); break;       
-            case 6: editPipeById(storage); break;
-            case 7: editCSById(storage); break;
-            case 8: removePipeById(storage); break;
-            case 9: removeCSById(storage); break;
-            case 10: searchPipes(storage); break;
-            case 11: searchCS(storage); break;
-            case 12: ui.searchAndBatchEditPipes(); break;
-            case 13: saveData(storage); break;
-            case 14: loadData(storage); break;
-            case 15: setLogFile(); break;
-            default: cout << "Íåïîääåðæèâàåìûé ïóíêò ìåíþ.\n"; break;
-            }
-        }
-        catch (const exception& e) {
-            cout << "Ïðîèçîøëà îøèáêà: " << e.what() << "\n";
-            LOG.log(string("Error: ") + e.what());
-        }
-    }
+    ui.run();  // â† Ð—Ð°Ð¿ÑƒÑÐºÐ°ÐµÐ¼ Ð¸Ð½Ñ‚ÐµÑ€Ñ„ÐµÐ¹Ñ
 
     return 0;
 }

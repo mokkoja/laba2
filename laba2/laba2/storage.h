@@ -3,6 +3,7 @@
 #define STORAGE_H
 
 #include "entities.h"
+#include "network.h"        
 #include <map>
 #include <string>
 #include <fstream>
@@ -71,9 +72,6 @@ public:
     // Создание объектов через интерактивный ввод
     Pipe createPipeInteractive(int id);
     CS createCSInteractive(int id);
-
-    // В класс Storage добавить:
-
 
 private:
     GasNetwork network;

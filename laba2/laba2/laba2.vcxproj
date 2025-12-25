@@ -125,12 +125,14 @@
   <ItemGroup>
     <ClCompile Include="entities.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="network.cpp" />
     <ClCompile Include="storage.cpp" />
     <ClCompile Include="ui.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entities.h" />
+    <ClInclude Include="network.h" />
     <ClInclude Include="storage.h" />
     <ClInclude Include="ui.h" />
     <ClInclude Include="utils.h" />

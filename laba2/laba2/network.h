@@ -3,11 +3,16 @@
 #define NETWORK_H
 
 #include "entities.h"
-#include "storage.h"
 #include <map>
 #include <vector>
 #include <set>
 #include <string>
+#include <iostream>
+#include <sstream>
+
+// Предварительное объявление
+class Storage;
+class Pipe;
 
 class Connection {
 public:
@@ -55,7 +60,7 @@ public:
     void printNetworkGraph(Storage& storage) const;
 
     // Статистика
-    int getConnectionCount() const { return connections.size(); }
+    int getConnectionCount() const { return (int)connections.size(); }
 
     // Сохранение/загрузка
     void saveToStream(std::ostream& os) const;

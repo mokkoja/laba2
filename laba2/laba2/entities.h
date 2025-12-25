@@ -1,75 +1,74 @@
 #pragma once
+#ifndef ENTITIES_H
+#define ENTITIES_H
 
-#include <iostream>
 #include <string>
+#include <iostream>
 #include <sstream>
 #include <iomanip>
-#include <vector>
 
-class BaseEntity {
-protected:
+class Pipe {
     int id;
     std::string name;
+    double length;
+    int diameter;
+    bool inRepair;
+
 public:
-    BaseEntity();
-    virtual ~BaseEntity() = default;
+    Pipe();
+    Pipe(int id, std::string name, double length, int diameter, bool inRepair);
 
     int getId() const;
     void setId(int newId);
     std::string getName() const;
     void setName(const std::string& newName);
-
-    virtual std::string toSingleLine() const = 0;
-    virtual void printDetails() const = 0;
-    virtual void editInteractive() = 0;
-};
-
-class Pipe : public BaseEntity {
-    double length; // ךל
-    int diameter;    // לל
-    bool inRepair;
-
-public:
-    Pipe();
-
     double getLength() const;
+    void setLength(double newLength);
     int getDiameter() const;
+    void setDiameter(int newDiameter);
     bool isInRepair() const;
-
-    void setLength(double l);
-    void setDiameter(int d);
     void setInRepair(bool repair);
 
-    std::string toSingleLine() const override;
+    std::string toSingleLine() const;
     static bool fromSingleLine(const std::string& line, Pipe& out);
-    void printDetails() const override;
-    void editInteractive() override;
+
+    void printDetails() const;
+    void editInteractive();
 };
 
-class CS : public BaseEntity {
+class CS {
+    int id;
+    std::string name;
     int workshopsTotal;
     int workshopsWorking;
     std::string stationClass;
-    double efficiency; // ןנמצוםע
+    double efficiency;
 
 public:
     CS();
+    CS(int id, std::string name, int workshopsTotal, int workshopsWorking, std::string stationClass);
 
+    int getId() const;
+    void setId(int newId);
+    std::string getName() const;
+    void setName(const std::string& newName);
     int getWorkshopsTotal() const;
-    int getWorkshopsWorking() const;
-    std::string getStationClass() const;
-    double getEfficiency() const;
-    double getIdlePercent() const;
-
     void setWorkshopsTotal(int total);
+    int getWorkshopsWorking() const;
     void setWorkshopsWorking(int working);
+    double getIdlePercent() const;
+    std::string getStationClass() const;
     void setStationClass(const std::string& cls);
 
-    std::string toSingleLine() const override;
-    static bool fromSingleLine(const std::string& line, CS& out);
-    void printDetails() const override;
-    void editInteractive() override;
-
-private:
+    double getEfficiency() const;
+    void setEfficiency(double eff);
     void updateEfficiency();
+
+    std::string toSingleLine() const;
+    static bool fromSingleLine(const std::string& line, CS& out);
+
+    void printDetails() const;
+    void editInteractive();
 };
+
+#endif
